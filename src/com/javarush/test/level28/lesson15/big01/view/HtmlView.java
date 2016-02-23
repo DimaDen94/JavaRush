@@ -7,6 +7,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
@@ -20,7 +21,9 @@ public class HtmlView implements View
     private final String filePath = "./src/" + this.getClass().getPackage().getName().replace('.', '/') + "/vacancies.html";
     public void update(List<Vacancy> vacancies)
     {
-        updateFile(getUpdatedFileContent(vacancies));
+
+        String newVacanciesFileHtml = getUpdatedFileContent(vacancies);
+        updateFile(newVacanciesFileHtml);
     }
 
     @Override
@@ -35,10 +38,10 @@ public class HtmlView implements View
     private String getUpdatedFileContent(List<Vacancy> vacancies)
     {
         String content;
-        Document document;
+
         try
         {
-            document = getDocument();
+            Document document = getDocument();
             Element element = document.getElementsByClass("template").first();
             Element cloneElement = element.clone();
             cloneElement.removeClass("template");
@@ -82,6 +85,6 @@ public class HtmlView implements View
 
     }
     protected Document getDocument() throws IOException{
-       return Jsoup.parse(filePath,"UTF-8");
+       return Jsoup.parse(new File(filePath),"UTF-8");
     }
 }
