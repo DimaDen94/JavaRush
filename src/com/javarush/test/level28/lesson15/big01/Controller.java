@@ -21,7 +21,8 @@ public class Controller
         }
         this.model = model;
     }
-    public void onCitySelect(String cityName){
+    public void onCitySelect(String cityName)
+    {
         model.selectCity(cityName);
     }
 }

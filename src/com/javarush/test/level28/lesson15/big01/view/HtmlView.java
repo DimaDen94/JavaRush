@@ -3,6 +3,9 @@ package com.javarush.test.level28.lesson15.big01.view;
 import com.javarush.test.level28.lesson15.big01.Controller;
 import com.javarush.test.level28.lesson15.big01.vo.Vacancy;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -15,8 +18,6 @@ public class HtmlView implements View
     @Override
     public void update(List<Vacancy> vacancies)
     {
-        System.out.println(vacancies.size());
-
 
     }
 
@@ -25,13 +26,18 @@ public class HtmlView implements View
     {
         this.controller = controller;
     }
-    public void userCitySelectEmulationMethod(){
+    public void userCitySelectEmulationMethod()
+    {
         controller.onCitySelect("Odessa");
     }
     private String getUpdatedFileContent(List<Vacancy> list){
         return "";
     }
-    private void updateFile(String s){
+    private void updateFile(String s) throws IOException
+    {
+        BufferedWriter fWriter = new BufferedWriter(new FileWriter(filePath));
+        fWriter.write(s);
+        fWriter.close();
 
     }
 
