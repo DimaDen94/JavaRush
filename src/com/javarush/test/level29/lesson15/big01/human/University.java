@@ -36,7 +36,6 @@ public class University{
         }
         return studentResult;
     }
-
     public Student getStudentWithMinAverageGrade(){
         Student studentResult = students.get(0);
         double min = students.get(0).getAverageGrade();
@@ -50,17 +49,12 @@ public class University{
         }
         return studentResult;
     }
-
     public void expel(Student student){
         if (students.contains(student))
         {
             students.remove(student);
         }
     }
-
-
-
-
     public List<Student> getStudents() {
         return students;
     }

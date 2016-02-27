@@ -8,16 +8,11 @@ public class Teacher extends UniversityPerson {
         super(name,age);
         this.numberOfStudents = numberOfStudents;
     }
-
     public void live() {
         teach();
     }
-
     public void teach() {
     }
-
-
-
     @Override
     public String getPosition()
     {
