@@ -34,6 +34,12 @@ public class Human implements Alive{
         this.id = nextId;
         nextId++;
     }
+    public String getPosition(){
+        return "Человек";
+    }
+    public void printData() {
+        System.out.println(getPosition() + ": " + name);
+    }
 
     public int getAge() {
         return age;
@@ -47,11 +53,11 @@ public class Human implements Alive{
         return name;
     }
 
+
+
     public void setName(String name) {
         this.name = name;
     }
-
-
 
     public int getId() {
         return id;
@@ -60,7 +66,6 @@ public class Human implements Alive{
     public void setId(int id) {
         this.id = id;
     }
-
     public void printSize() {
         System.out.println("Рост: " + size[0] + " Вес: " + size[1]);
     }
@@ -73,7 +78,6 @@ public class Human implements Alive{
     public void removeChild(Human child){
         children.remove(child);
     }
-
     @Override
     public void live()
     {
