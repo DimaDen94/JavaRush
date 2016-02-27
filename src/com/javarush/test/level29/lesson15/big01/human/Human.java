@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class Human implements Alive{
-    public static int nextId = 0;
+    private static int nextId = 0;
     private int id;
     protected int age;
     protected String name;
@@ -63,9 +63,7 @@ public class Human implements Alive{
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+
     public void printSize() {
         System.out.println("Рост: " + size[0] + " Вес: " + size[1]);
     }
