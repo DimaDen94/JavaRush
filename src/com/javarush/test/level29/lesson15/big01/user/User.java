@@ -4,18 +4,28 @@ public class User {
     private String name;
     private String surname;
     private int age;
-
-    private String country;
-    private String city;
-    private House house;
-
+    private boolean man;
     private Work work;
+    private Address address ;
+
+    public boolean isMan()
+    {
+        return man;
+    }
+
+    public void setMan(boolean man)
+    {
+        this.man = man;
+    }
+
+
 
     public User(String name, String surname, int age) {
         this.name = name;
         this.surname = surname;
         this.age = age;
     }
+
     public void printInfo(){
         System.out.println("Имя: " + getName());
         System.out.println("Фамилия: " + getSurname());
@@ -27,7 +37,6 @@ public class User {
         else
             System.out.println("Пользователь старше 16 лет");
     }
-
     public String getName() {
         return name;
     }
@@ -52,24 +61,15 @@ public class User {
         this.age = age;
     }
 
-    public String getCountry() {
-        return country;
+    public void setAddress(Address address)
+    {
+        this.address = address;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
-    }
 
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
 
     public String getAddress() {
-        return country + " " + city + " " + house.house;
+        return address.getCountry() + " " + address.getCity() + " " + address.getHouse();
     }
 
     public Work getWork() {
@@ -78,5 +78,8 @@ public class User {
 
     public void setWork(Work work) {
         this.work = work;
+    }
+    public String getBoss(){
+        return work.getBoss();
     }
 }
