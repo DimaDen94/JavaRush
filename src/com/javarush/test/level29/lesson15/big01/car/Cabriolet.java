@@ -11,4 +11,10 @@ public class Cabriolet extends Car
         super(Car.CABRIOLET,numberOfPassengers);
     }
 
+    @Override
+    public int getMaxSpeed()
+    {
+        final int MAX_CABRIOLET_SPEED = 90;
+        return MAX_CABRIOLET_SPEED;
+    }
 }
