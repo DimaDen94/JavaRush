@@ -65,15 +65,20 @@ public class Server
         {
             this.socket = socket;
         }
-        private  String serverHandshake(Connection connection) throws IOException, ClassNotFoundException{
-            while (true){
+
+        private String serverHandshake(Connection connection) throws IOException, ClassNotFoundException
+        {
+            while (true)
+            {
                 connection.send(new Message(MessageType.NAME_REQUEST));
 
                 Message message = connection.receive();
 
-                if(message.getType()==MessageType.USER_NAME && message.getData()!=null && !message.getData().isEmpty()){
+                if (message.getType() == MessageType.USER_NAME && message.getData() != null && !message.getData().isEmpty())
+                {
 
-                    if(!connectionMap.containsKey(message.getData())){
+                    if (!connectionMap.containsKey(message.getData()))
+                    {
                         connectionMap.put(message.getData(), connection);
                         connection.send(new Message(MessageType.NAME_ACCEPTED));
                         return message.getData();
@@ -81,6 +86,16 @@ public class Server
                 }
             }
 
+        }
+
+        private void sendListOfUsers(Connection connection, String userName) throws IOException
+        {
+            for (String name : connectionMap.keySet()){
+                if(!name.equals(userName))
+                {
+                    connection.send(new Message(MessageType.USER_ADDED, name));
+                }
+            }
         }
 
 
