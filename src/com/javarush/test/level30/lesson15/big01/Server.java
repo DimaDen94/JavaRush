@@ -15,6 +15,8 @@ public class Server
 
     public static void main(String[] args) throws IOException
     {
+        ConsoleHelper.writeMessage("input your port");
+
         int port = ConsoleHelper.readInt();
         try
         {
@@ -64,6 +66,39 @@ public class Server
         Handler(Socket socket)
         {
             this.socket = socket;
+        }
+
+        @Override
+        public void run()
+        {
+
+            ConsoleHelper.writeMessage(socket.getRemoteSocketAddress() + " connected");
+            String userName = null;
+            try(Connection connection = new Connection(socket);)
+            {
+                ConsoleHelper.writeMessage("connected port: " + connection.getRemoteSocketAddress());
+                ConsoleHelper.writeMessage("input your name");
+                userName = serverHandshake(connection);
+
+                sendBroadcastMessage(new Message(MessageType.USER_ADDED,userName));
+
+                sendListOfUsers(connection,userName);
+
+                serverMainLoop(connection,userName);
+            }
+            catch (IOException e)
+            {
+                ConsoleHelper.writeMessage("connection error");
+            }
+            catch (ClassNotFoundException e)
+            {
+                ConsoleHelper.writeMessage("connection error");
+            }
+
+            connectionMap.remove(userName);
+
+            sendBroadcastMessage(new Message(MessageType.USER_REMOVED, userName));
+            ConsoleHelper.writeMessage("connection was completed");
         }
 
         private String serverHandshake(Connection connection) throws IOException, ClassNotFoundException
