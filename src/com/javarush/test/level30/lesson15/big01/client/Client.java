@@ -24,7 +24,7 @@ public class Client
         return ConsoleHelper.readInt();
     }
     protected String getUserName(){
-        ConsoleHelper.writeMessage("input server port");
+        ConsoleHelper.writeMessage("input name");
         return ConsoleHelper.readString();
     }
     protected boolean shouldSentTextFromConsole(){
