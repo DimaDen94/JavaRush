@@ -15,25 +15,43 @@ public class Client
     protected Connection connection;
     private volatile boolean clientConnected = false;
 
-    protected String getServerAddress(){
+
+    public static void main(String[] args)
+    {
+        Client client = new Client();
+        client.run();
+    }
+
+    protected String getServerAddress()
+    {
         ConsoleHelper.writeMessage("input address");
         return ConsoleHelper.readString();
     }
-    protected int getServerPort(){
+
+    protected int getServerPort()
+    {
         ConsoleHelper.writeMessage("input server port");
         return ConsoleHelper.readInt();
     }
-    protected String getUserName(){
+
+    protected String getUserName()
+    {
         ConsoleHelper.writeMessage("input name");
         return ConsoleHelper.readString();
     }
-    protected boolean shouldSentTextFromConsole(){
+
+    protected boolean shouldSentTextFromConsole()
+    {
         return true;
     }
-    protected SocketThread getSocketThread(){
+
+    protected SocketThread getSocketThread()
+    {
         return new SocketThread();
     }
-    protected void sendTextMessage(String text){
+
+    protected void sendTextMessage(String text)
+    {
         Message message = new Message(MessageType.TEXT, text);
         try
         {
@@ -46,10 +64,51 @@ public class Client
         }
     }
 
+    public void run()
+    {
+        SocketThread thread = getSocketThread();
+        thread.setDaemon(true);
+        thread.start();
+        try
+        {
+            synchronized (this)
+            {
+                this.wait();
+            }
+        }
+        catch (InterruptedException e)
+        {
+            ConsoleHelper.writeMessage("error");
+            return;
+        }
+
+        if (clientConnected) {
+            ConsoleHelper.writeMessage("Соединение установлено. Для выхода наберите команду 'exit'.");
+
+            while (clientConnected) {
+                String message;
+                if (!(message = ConsoleHelper.readString()).equals("exit")) {
+                    if (shouldSentTextFromConsole()) {
+                        sendTextMessage(message);
+                    }
+                } else {
+                    return;
+                }
+            }
+        }
+        else {
+            ConsoleHelper.writeMessage("Произошла ошибка во время работы клиента.");
+        }
 
 
+    }
 
-    public class SocketThread extends Thread{
 
+    public class SocketThread extends Thread
+    {
+        @Override
+        public void run()
+        {
+        }
     }
 }
