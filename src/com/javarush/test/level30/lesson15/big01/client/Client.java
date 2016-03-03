@@ -82,21 +82,26 @@ public class Client
             return;
         }
 
-        if (clientConnected) {
+        if (clientConnected)
+        {
             ConsoleHelper.writeMessage("Соединение установлено. Для выхода наберите команду 'exit'.");
 
-            while (clientConnected) {
+            while (clientConnected)
+            {
                 String message;
-                if (!(message = ConsoleHelper.readString()).equals("exit")) {
-                    if (shouldSentTextFromConsole()) {
+                if (!(message = ConsoleHelper.readString()).equals("exit"))
+                {
+                    if (shouldSentTextFromConsole())
+                    {
                         sendTextMessage(message);
                     }
-                } else {
+                } else
+                {
                     return;
                 }
             }
-        }
-        else {
+        } else
+        {
             ConsoleHelper.writeMessage("Произошла ошибка во время работы клиента.");
         }
 
@@ -110,5 +115,35 @@ public class Client
         public void run()
         {
         }
+
+
+        protected void processIncomingMessage(String message)
+        {
+            ConsoleHelper.writeMessage(message);
+        }
+
+        protected void informAboutAddingNewUser(String userName)
+        {
+            ConsoleHelper.writeMessage(userName + " was added");
+        }
+
+        protected void informAboutDeletingNewUser(String userName)
+        {
+            ConsoleHelper.writeMessage(userName + " exit");
+
+        }
+
+        protected void notifyConnectionStatusChanged(boolean clientConnected)
+        {
+            Client.this.clientConnected = clientConnected;
+
+            synchronized (Client.this)
+            {
+                Client.this.notify();
+            }
+        }
+
     }
+
 }
+
