@@ -6,6 +6,7 @@ import com.javarush.test.level30.lesson15.big01.Message;
 import com.javarush.test.level30.lesson15.big01.MessageType;
 
 import java.io.IOException;
+import java.net.Socket;
 
 /**
  * Created by Dmitry on 03.03.2016.
@@ -114,6 +115,23 @@ public class Client
         @Override
         public void run()
         {
+
+
+            try
+            {
+                Socket socket= new Socket(getServerAddress(),getServerPort());
+                Client.this.connection = new Connection(socket);
+                clientHandshake();
+                clientMainLoop();
+            }
+            catch (ClassNotFoundException e)
+            {
+                notifyConnectionStatusChanged(false);
+            }
+            catch (IOException e)
+            {
+                notifyConnectionStatusChanged(false);
+            }
         }
 
 
