@@ -77,7 +77,6 @@ public class Server
             try(Connection connection = new Connection(socket);)
             {
                 ConsoleHelper.writeMessage("connected port: " + connection.getRemoteSocketAddress());
-                ConsoleHelper.writeMessage("input your name");
                 userName = serverHandshake(connection);
 
                 sendBroadcastMessage(new Message(MessageType.USER_ADDED,userName));
