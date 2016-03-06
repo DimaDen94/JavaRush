@@ -16,5 +16,6 @@ public class Archiver
         ZipFileManager manager = new ZipFileManager(Paths.get(reader.readLine()));
         System.out.println("Enter the path to the file");
         manager.createZip(Paths.get(reader.readLine()));
+
     }
 }
