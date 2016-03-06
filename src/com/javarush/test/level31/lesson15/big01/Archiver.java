@@ -1,10 +1,8 @@
 package com.javarush.test.level31.lesson15.big01;
 
-import com.javarush.test.level31.lesson15.big01.command.ExitCommand;
+import com.javarush.test.level31.lesson15.big01.exception.WrongZipFileException;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.nio.file.Paths;
+import java.io.IOException;
 
 /**
  * Created by Dmitry on 06.03.2016.
@@ -13,11 +11,36 @@ public class Archiver
 {
     public static void main(String[] args) throws Exception
     {
-        System.out.println("Enter the path to the archive");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        ZipFileManager manager = new ZipFileManager(Paths.get(reader.readLine()));
-        System.out.println("Enter the path to the file");
-        manager.createZip(Paths.get(reader.readLine()));
-        new ExitCommand().execute();
+        Operation operation = null;
+        while (true)
+        {
+            try
+            {
+                operation = askOperation();
+                CommandExecutor.execute(operation);
+            }
+            catch (WrongZipFileException e)
+            {
+                ConsoleHelper.writeMessage("Вы не выбрали файл архива или выбрали неверный файл.");
+            }
+            catch (Exception e)
+            {
+                ConsoleHelper.writeMessage("Произошла ошибка. Проверьте введенные данные.");
+
+            }
+            if (operation==Operation.EXIT)
+                break;
+        }
+
+    }
+
+    public static Operation askOperation() throws IOException
+    {
+
+        for (Operation operation : Operation.values())
+        {
+            ConsoleHelper.writeMessage(operation.ordinal() + " " + operation.toString());
+        }
+        return Operation.values()[ConsoleHelper.readInt()];
     }
 }
