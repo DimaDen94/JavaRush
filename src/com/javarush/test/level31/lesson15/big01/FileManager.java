@@ -7,36 +7,35 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Dmitry on 06.03.2016.
- */
-public class FileManager
-{
+public class FileManager {
     private Path rootPath;
     private List<Path> fileList;
 
-    public FileManager(Path rootPath) throws IOException
-    {
+    public FileManager(Path rootPath) throws IOException {
         this.rootPath = rootPath;
-        fileList = new ArrayList<>();
+        this.fileList = new ArrayList<>();
         collectFileList(rootPath);
     }
 
-    private void collectFileList(Path path) throws IOException
-    {
-        if (Files.isRegularFile(path))
-            fileList.add(rootPath.relativize(path));
-        else if (Files.isDirectory(path)) {
-            try (DirectoryStream<Path> dirStream = Files.newDirectoryStream(path)) {
-                for (Path subPath : dirStream) {
-                    collectFileList(subPath);
+    public List<Path> getFileList() {
+        return fileList;
+    }
+
+    private void collectFileList(Path path) throws IOException {
+        // Добавляем только файлы
+        if (Files.isRegularFile(path)) {
+            Path relativePath = rootPath.relativize(path);
+            fileList.add(relativePath);
+        }
+
+        // Добавляем содержимое директории
+        if (Files.isDirectory(path)) {
+            // Рекурсивно проходимся по всему содержмому директории
+            try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(path)) {
+                for (Path file : directoryStream) {
+                    collectFileList(file);
                 }
             }
         }
-    }
-
-    public List<Path> getFileList()
-    {
-        return fileList;
     }
 }
