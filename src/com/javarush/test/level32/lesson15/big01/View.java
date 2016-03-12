@@ -13,6 +13,30 @@ import java.awt.event.ActionListener;
  */
 public class View extends JFrame implements ActionListener
 {
+    public View()
+    {
+        try
+        {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        }
+        catch (ClassNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        catch (UnsupportedLookAndFeelException e)
+        {
+            e.printStackTrace();
+        }
+        catch (InstantiationException e)
+        {
+            e.printStackTrace();
+        }
+        catch (IllegalAccessException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
     private Controller controller;
     private JTabbedPane tabbedPane = new JTabbedPane();
     private JTextPane htmlTextPane = new JTextPane();
@@ -43,7 +67,17 @@ public class View extends JFrame implements ActionListener
         controller.exit();
     }
     public void initMenuBar(){
+        JMenuBar jMenuBar = new JMenuBar();
 
+        MenuHelper.initFileMenu(this,jMenuBar);
+        MenuHelper.initEditMenu(this, jMenuBar);
+        MenuHelper.initStyleMenu(this, jMenuBar);
+        MenuHelper.initAlignMenu(this, jMenuBar);
+        MenuHelper.initColorMenu(this, jMenuBar);
+        MenuHelper.initFontMenu(this, jMenuBar);
+        MenuHelper.initHelpMenu(this, jMenuBar);
+
+        getContentPane().add(jMenuBar,BorderLayout.NORTH);
     }
     public void initEditor(){
 
@@ -53,11 +87,12 @@ public class View extends JFrame implements ActionListener
 
         tabbedPane.add("Текст", new JScrollPane(plainTextPane));
 
-        tabbedPane.setPreferredSize(new Dimension(800,600));
+        tabbedPane.setPreferredSize(new Dimension(800, 600));
 
         tabbedPane.addChangeListener(new TabbedPaneChangeListener(this));
 
         getContentPane().add(tabbedPane,BorderLayout.CENTER);
+
     }
     public void initGui(){
         initMenuBar();
