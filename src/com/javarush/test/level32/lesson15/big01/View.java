@@ -2,8 +2,12 @@ package com.javarush.test.level32.lesson15.big01;
 
 import com.javarush.test.level32.lesson15.big01.listeners.FrameListener;
 import com.javarush.test.level32.lesson15.big01.listeners.TabbedPaneChangeListener;
+import com.javarush.test.level32.lesson15.big01.listeners.UndoListener;
 
 import javax.swing.*;
+import javax.swing.undo.CannotRedoException;
+import javax.swing.undo.CannotUndoException;
+import javax.swing.undo.UndoManager;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +17,16 @@ import java.awt.event.ActionListener;
  */
 public class View extends JFrame implements ActionListener
 {
+    private Controller controller;
+
+    private UndoManager undoManager = new UndoManager();
+    private UndoListener undoListener = new UndoListener(undoManager);
+
+    private JTabbedPane tabbedPane = new JTabbedPane();
+    private JTextPane htmlTextPane = new JTextPane();
+
+    private JEditorPane plainTextPane = new JEditorPane();
+
     public View()
     {
         try
@@ -37,23 +51,53 @@ public class View extends JFrame implements ActionListener
         }
     }
 
-    private Controller controller;
-    private JTabbedPane tabbedPane = new JTabbedPane();
-    private JTextPane htmlTextPane = new JTextPane();
-    private JEditorPane plainTextPane = new JEditorPane();
+
+    public boolean canUndo() {
+        return undoManager.canUndo();
+    }
+
+    public boolean canRedo() {
+        return undoManager.canRedo();
+    }
+
+    public void undo() {
+
+        try {
+            undoManager.undo();
+        } catch (CannotUndoException e) {
+            ExceptionHandler.log(e);
+        }
+    }
+
+    public void redo() {
+        try {
+            undoManager.redo();
+        } catch (CannotUndoException e) {
+            ExceptionHandler.log(e);
+        }
+    }
+
+    public UndoListener getUndoListener()
+    {
+        return undoListener;
+    }
+
+    public void resetUndo() {
+        try{
+            undoManager.discardAllEdits();
+        }catch (CannotRedoException e){ExceptionHandler.log(e);}
+    }
+
+
+
 
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        
+
     }
 
-    public boolean canUndo(){
-        return false;
-    }
-    public boolean canRedo(){
-        return false;
-    }
+
     public Controller getController()
     {
         return controller;
@@ -63,19 +107,25 @@ public class View extends JFrame implements ActionListener
     {
         this.controller = controller;
     }
-    public void init(){
+
+    public void init()
+    {
         initGui();
-        FrameListener  listener = new FrameListener(this);
+        FrameListener listener = new FrameListener(this);
         addWindowListener(listener);
         setVisible(true);
     }
-    public void exit(){
+
+    public void exit()
+    {
         controller.exit();
     }
-    public void initMenuBar(){
+
+    public void initMenuBar()
+    {
         JMenuBar jMenuBar = new JMenuBar();
 
-        MenuHelper.initFileMenu(this,jMenuBar);
+        MenuHelper.initFileMenu(this, jMenuBar);
         MenuHelper.initEditMenu(this, jMenuBar);
         MenuHelper.initStyleMenu(this, jMenuBar);
         MenuHelper.initAlignMenu(this, jMenuBar);
@@ -83,9 +133,11 @@ public class View extends JFrame implements ActionListener
         MenuHelper.initFontMenu(this, jMenuBar);
         MenuHelper.initHelpMenu(this, jMenuBar);
 
-        getContentPane().add(jMenuBar,BorderLayout.NORTH);
+        getContentPane().add(jMenuBar, BorderLayout.NORTH);
     }
-    public void initEditor(){
+
+    public void initEditor()
+    {
 
         htmlTextPane.setContentType("text/html");
 
@@ -97,16 +149,20 @@ public class View extends JFrame implements ActionListener
 
         tabbedPane.addChangeListener(new TabbedPaneChangeListener(this));
 
-        getContentPane().add(tabbedPane,BorderLayout.CENTER);
+        getContentPane().add(tabbedPane, BorderLayout.CENTER);
 
     }
-    public void initGui(){
+
+    public void initGui()
+    {
         initMenuBar();
         initEditor();
         pack();
 
     }
 
-    public void selectedTabChanged(){}
+    public void selectedTabChanged()
+    {
+    }
 
 }
