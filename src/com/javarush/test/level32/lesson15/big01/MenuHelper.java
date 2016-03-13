@@ -98,9 +98,9 @@ public class MenuHelper {
 
         styleMenu.addSeparator();
 
-        addMenuItem(styleMenu, "Подстрочный знак", new SubscriptAction(null));
-        addMenuItem(styleMenu, "Надстрочный знак", new SuperscriptAction(null));
-        addMenuItem(styleMenu, "Зачеркнутый", new StrikeThroughAction(null));
+        addMenuItem(styleMenu, "Подстрочный знак", new SubscriptAction());
+        addMenuItem(styleMenu, "Надстрочный знак", new SuperscriptAction());
+        addMenuItem(styleMenu, "Зачеркнутый", new StrikeThroughAction());
 
         styleMenu.addMenuListener(new TextEditMenuListener(view));
     }
