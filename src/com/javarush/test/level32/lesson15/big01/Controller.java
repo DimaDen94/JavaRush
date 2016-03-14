@@ -1,8 +1,11 @@
 package com.javarush.test.level32.lesson15.big01;
 
+import javax.swing.text.BadLocationException;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 import java.io.File;
+import java.io.IOException;
+import java.io.StringReader;
 
 /**
  * Created by Dmitry on 09.03.2016.
@@ -51,5 +54,24 @@ public class Controller
         document = (HTMLDocument) new HTMLEditorKit().createDefaultDocument();
         document.addUndoableEditListener(view.getUndoListener());
         view.update();
+    }
+    public void setPlainText(String text){
+        resetDocument();
+        StringReader reader = new StringReader(text);
+
+        try
+        {
+            new HTMLEditorKit().read(reader,document,0);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        catch (BadLocationException e)
+        {
+            e.printStackTrace();
+        }
+
+
     }
 }
