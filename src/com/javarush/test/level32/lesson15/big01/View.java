@@ -52,27 +52,37 @@ public class View extends JFrame implements ActionListener
     }
 
 
-    public boolean canUndo() {
+    public boolean canUndo()
+    {
         return undoManager.canUndo();
     }
 
-    public boolean canRedo() {
+    public boolean canRedo()
+    {
         return undoManager.canRedo();
     }
 
-    public void undo() {
+    public void undo()
+    {
 
-        try {
+        try
+        {
             undoManager.undo();
-        } catch (CannotUndoException e) {
+        }
+        catch (CannotUndoException e)
+        {
             ExceptionHandler.log(e);
         }
     }
 
-    public void redo() {
-        try {
+    public void redo()
+    {
+        try
+        {
             undoManager.redo();
-        } catch (CannotUndoException e) {
+        }
+        catch (CannotUndoException e)
+        {
             ExceptionHandler.log(e);
         }
     }
@@ -82,32 +92,38 @@ public class View extends JFrame implements ActionListener
         return undoListener;
     }
 
-    public void resetUndo() {
-        try{
-            undoManager.discardAllEdits();
-        }catch (CannotRedoException e){ExceptionHandler.log(e);}
-    }
-
-
-    public boolean isHtmlTabSelected(){
-        return tabbedPane.getSelectedIndex()==0;
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e)
+    public void resetUndo()
     {
-
+        try
+        {
+            undoManager.discardAllEdits();
+        }
+        catch (CannotRedoException e)
+        {
+            ExceptionHandler.log(e);
+        }
     }
-    public void update(){
+
+
+    public boolean isHtmlTabSelected()
+    {
+        return tabbedPane.getSelectedIndex() == 0;
+    }
+
+    public void update()
+    {
         htmlTextPane.setDocument(controller.getDocument());
     }
 
-    public void selectHtmlTab(){
+    public void selectHtmlTab()
+    {
         tabbedPane.setSelectedIndex(0);
         resetUndo();
     }
-    public void showAbout(){
-        JOptionPane.showMessageDialog(getContentPane(),"123","321",JOptionPane.INFORMATION_MESSAGE);
+
+    public void showAbout()
+    {
+        JOptionPane.showMessageDialog(getContentPane(), "123", "321", JOptionPane.INFORMATION_MESSAGE);
     }
 
     public Controller getController()
@@ -175,12 +191,41 @@ public class View extends JFrame implements ActionListener
 
     public void selectedTabChanged()
     {
-        if(tabbedPane.getSelectedIndex()==0){
+        if (tabbedPane.getSelectedIndex() == 0)
+        {
             controller.setPlainText(plainTextPane.getText());
-        }else if(tabbedPane.getSelectedIndex()==1){
+        } else if (tabbedPane.getSelectedIndex() == 1)
+        {
             plainTextPane.setText(controller.getPlainText());
         }
         resetUndo();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e)
+    {
+        String command = e.getActionCommand();
+        switch (command)
+        {
+            case "Новый":
+                controller.createNewDocument();
+                break;
+            case "Открыть":
+                controller.openDocument();
+                break;
+            case "Сохранить":
+                controller.saveDocument();
+                break;
+            case "Сохранить как...":
+                controller.saveDocumentAs();
+                break;
+            case "Выход":
+                controller.exit();
+                break;
+            case "О программе":
+                showAbout();
+                break;
+        }
     }
 
 }

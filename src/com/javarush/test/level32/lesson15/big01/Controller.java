@@ -79,7 +79,7 @@ public class Controller
         StringWriter writer = new StringWriter();
         try
         {
-            new HTMLEditorKit().write(writer,document,0,document.getLength());
+            new HTMLEditorKit().write(writer, document, 0, document.getLength());
         }
         catch (IOException e)
         {
@@ -91,4 +91,22 @@ public class Controller
         }
         return writer.toString();
     }
+
+    public void createNewDocument()
+    {
+    }
+
+    public void openDocument()
+    {
+    }
+
+    public void saveDocument()
+    {
+    }
+
+    public void saveDocumentAs()
+    {
+    }
+
+
 }
