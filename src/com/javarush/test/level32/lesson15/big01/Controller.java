@@ -35,7 +35,7 @@ public class Controller
 
     public void init()
     {
-
+        createNewDocument();
     }
 
     public void exit()
@@ -62,7 +62,7 @@ public class Controller
 
         try
         {
-            new HTMLEditorKit().read(reader,document,0);
+            new HTMLEditorKit().read(reader, document, 0);
         }
         catch (IOException e)
         {
@@ -94,6 +94,11 @@ public class Controller
 
     public void createNewDocument()
     {
+        view.selectHtmlTab();
+        resetDocument();
+        view.setTitle("HTML редактор");
+        view.resetUndo();
+        currentFile = null;
     }
 
     public void openDocument()
