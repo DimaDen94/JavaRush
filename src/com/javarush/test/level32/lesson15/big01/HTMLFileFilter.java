@@ -11,9 +11,8 @@ public class HTMLFileFilter extends FileFilter
     @Override
     public boolean accept(File f)
     {
-        if (f.isDirectory()) {
+        if (f.isDirectory())
             return true;
-        }
         String fileName = f.getName().toLowerCase();
         return fileName.endsWith(".html") || fileName.endsWith(".htm");
     }

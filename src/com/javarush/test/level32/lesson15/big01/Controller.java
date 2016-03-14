@@ -1,12 +1,10 @@
 package com.javarush.test.level32.lesson15.big01;
 
+import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
-import java.io.File;
-import java.io.IOException;
-import java.io.StringReader;
-import java.io.StringWriter;
+import java.io.*;
 
 /**
  * Created by Dmitry on 09.03.2016.
@@ -107,10 +105,34 @@ public class Controller
 
     public void saveDocument()
     {
+
     }
 
     public void saveDocumentAs()
     {
+        view.selectHtmlTab();
+        JFileChooser chooser = new JFileChooser();
+        chooser.setFileFilter(new HTMLFileFilter());
+
+        int n = chooser.showSaveDialog(view);
+        if (n == chooser.APPROVE_OPTION){
+            currentFile = chooser.getSelectedFile();
+            view.setTitle(currentFile.getName());
+
+            try (FileWriter writer = new FileWriter(currentFile)) {
+                new HTMLEditorKit().write(writer, document, 0, document.getLength());
+            }
+            catch (BadLocationException e)
+            {
+                e.printStackTrace();
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+
+
+        }
     }
 
 
