@@ -98,7 +98,17 @@ public class View extends JFrame implements ActionListener
     {
 
     }
+    public void update(){
+        htmlTextPane.setDocument(controller.getDocument());
+    }
 
+    public void selectHtmlTab(){
+        tabbedPane.setSelectedIndex(0);
+        resetUndo();
+    }
+    public void showAbout(){
+        JOptionPane.showMessageDialog(getContentPane(),"123","321",JOptionPane.INFORMATION_MESSAGE);
+    }
 
     public Controller getController()
     {
