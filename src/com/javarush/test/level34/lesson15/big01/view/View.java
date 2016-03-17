@@ -41,4 +41,9 @@ public class View extends JFrame
     public GameObjects getGameObjects(){
         return controller.getGameObjects();
     }
+    public void completed(int level){
+        this.update();
+        JOptionPane.showMessageDialog(this, "lvl " + level, "next lvl " + level + 1, JOptionPane.INFORMATION_MESSAGE);
+        controller.startNextLevel();
+    }
 }
