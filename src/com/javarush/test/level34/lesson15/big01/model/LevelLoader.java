@@ -22,9 +22,9 @@ public class LevelLoader
 
     public GameObjects getLevel(int level)
     {
-        if (level > 60)
+        while (level>60)
         {
-            getLevel(level - 60);
+            level = level-60;
         }
 
         Set<Wall> walls = new HashSet<>();
@@ -77,11 +77,10 @@ public class LevelLoader
 
                         char[] chars = line.toCharArray();
 
-                        y0 = y0 + Model.FIELD_SELL_SIZE;
+
                         x0 = Model.FIELD_SELL_SIZE / 2;
                         for (char c : chars)
                         {
-                            x0 = x0 + Model.FIELD_SELL_SIZE;
                             switch (c)
                             {
                                 case 'X':
@@ -99,8 +98,16 @@ public class LevelLoader
                                 case '@':
                                     player = new Player(x0, y0);
                                     break;
+                                case '&':
+                                    box = new Box(x0, y0);
+                                    home = new Home(x0, y0);
+                                    boxes.add(box);
+                                    homes.add(home);
+                                    break;
                             }
+                            x0 = x0 + Model.FIELD_SELL_SIZE;
                         }
+                        y0 = y0 + Model.FIELD_SELL_SIZE;
                     }
                     break;
                 }
