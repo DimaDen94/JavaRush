@@ -24,59 +24,87 @@ id productName price quantity
 */
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Collections;
 
-public class Solution {
-    public static void main(String[] args) throws Exception {
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-        String fileName = bufferedReader.readLine();
-        bufferedReader.close();
+public class Solution
+{
+    public static void main(String[] args) throws Exception
+    {
+        //String par = "-c product Name 120 20";
+        //String[] arg = par.split(" ");
+
         String productName = "";
+        String price;
+        String quantity;
 
-        for (int i = 1; i < args.length-2; i++)
-            productName = productName + args[i] + " ";
-        String trueProductName = setLength(productName, 30);
+        String allData = null;
 
-        String truePrice = setLength(args[args.length - 2], 8);
-        String trueQuantity = setLength(args[args.length - 1], 4);
 
-        String id = getId(fileName);
-        id = setLength(id, 8);
-        PrintWriter printWriter = new PrintWriter(new BufferedWriter(new FileWriter(fileName, true)));
-        printWriter.println(id + trueProductName + truePrice + trueQuantity);
-        printWriter.close();
-
-    }
-
-    public static String getId (String fileName) throws IOException {
-        ArrayList<Long> allIds = new ArrayList<Long>();
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));
-        String line;
-        Long currentId;
-        while ((line=bufferedReader.readLine()) != null) {
-            line = line.substring(0, 8).replaceAll("\\s", "");
-            currentId = Long.parseLong(line);
-            allIds.add(currentId);
-        }
+        //File file = new File("D:\\HOBBY\\Java\\JavaRushHomeWork\\JavaRushHomeWork\\src\\com\\javarush\\test\\level18\\lesson10\\bonus02\\file.txt");
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        File file = new File(bufferedReader.readLine());
         bufferedReader.close();
-        Long maxId = Collections.max(allIds);
-        Long MyId = maxId+1;
-        return MyId.toString();
-    }
 
 
-    public static String setLength(String previousName, int count) {
-        String trueName;
-        if (previousName.length()>count)
-            trueName = previousName.substring(0, count);
-        else
+        if (args[0].substring(0, 2).equals("-c"))
         {
-            String s="";
-            for (int i = 0; i < (count  - previousName.length()); i++)
-                s = s+ " ";
-            trueName = previousName+s;
+            //String[] split = par.split(" ");
+            int arrLength = args.length;
+            for (int i = 1; i < arrLength - 2; i++)
+            {
+                productName = productName + args[i] + " ";
+            }
+
+            price = args[arrLength - 2];
+            quantity = args[arrLength - 1];
+
+            productName = doLength(productName, 30);
+            price = doLength(price, 8);
+            quantity = doLength(quantity, 4);
+            allData = productName + price + quantity;
+
+            System.out.println(allData);
         }
-        return trueName;
+        String id = doLength(getId(file), 8);
+        BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
+
+        writer.write("\n" + id + allData);
+        writer.close();
+
     }
+
+    private static String doLength(String str, int len)
+    {
+        if (str.length() < len)
+        {
+            int l = str.length();
+            int dif = len - l;
+            for (int i = 0; i < dif; i++)
+            {
+                str = str + " ";
+            }
+            return str;
+        } else if (str.length() > len)
+        {
+            return str.substring(0, len);
+        }
+        return str;
+    }
+
+    public static String getId(File file) throws IOException
+    {
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+
+        String line;
+        int maxId = 0;
+        while ((line = reader.readLine()) != null)
+        {
+            int id = Integer.parseInt(line.substring(0, 8).replaceAll(" ", ""));
+            System.out.println(id);
+            if (id >= maxId)
+                maxId = id + 1;
+        }
+        reader.close();
+        return "" + maxId;
+    }
+
 }
