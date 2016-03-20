@@ -22,4 +22,5 @@ public class EditUserView implements View
     {
         this.controller = controller;
     }
+
 }
