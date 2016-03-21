@@ -4,7 +4,7 @@ import java.util.List;
 
 /* Интернет-магазин продажи джинсов
 1.Внутри файла Solution.java, но НЕ внутри класса Solution создайте 2 интерфейса:
-1.1) Item с методами int getId(), double getPrice(), String getTM()
+1.1) Item с методами int getMaxId(), double getPrice(), String getTM()
 1.2) Jeans extends Item с методами int getLength() и int getSize()
 2. В классе Util в методе getAllJeans добавьте пропущенную часть java-кода:
 2.1) разберитесь в том, что уже есть в методе getAllJeans класса Util

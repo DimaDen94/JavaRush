@@ -24,8 +24,130 @@ id productName price quantity
 19847983Куртка для сноубордистов, разм10173.991234
 */
 
-public class Solution {
-    public static void main(String[] args) {
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class Solution
+{
+    public static void main(String[] args) throws IOException
+    {
+        //String par = "-c product Name 120 20";
+        //String par = "-d 198479";
+        //String par = "-u 19846 Шорты пляжные 159.00 12";
+        //String[] arg = par.split(" ");
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        String fileName = bufferedReader.readLine();
+        bufferedReader.close();
+
+
+        if (args[0].equals("-u"))
+        {
+            String productName = "";
+            for (int i = 2; i < args.length - 2; i++)
+                productName = productName + args[i] + " ";
+
+            String trueProductName = setLength(productName, 30);
+
+            String truePrice = setLength(args[args.length - 2], 8);
+            String trueQuantity = setLength(args[args.length - 1], 4);
+
+            BufferedReader reader = new BufferedReader(new FileReader(fileName));
+            String line;
+
+            String id = args[1];
+
+            List<String> list = new ArrayList<>();
+            while ((line = reader.readLine()) != null)
+            {
+                String idLine = null;
+                if (!line.isEmpty())
+                {
+                    idLine = line.substring(0, 8).replaceAll(" ", "");
+                }
+                if (id.equals(idLine))
+                {
+                    list.add(setLength(id, 8) + trueProductName + truePrice + trueQuantity);
+                }else {
+                    list.add(line);
+                }
+            }
+
+
+            PrintWriter printWriter = new PrintWriter(new BufferedWriter(new FileWriter(fileName)));
+            for (String s : list)
+            {
+                printWriter.println(s);
+            }
+            printWriter.close();
+
+        } else if (args[0].equals("-d"))
+        {
+            String id = args[1];
+            BufferedReader reader = new BufferedReader(new FileReader(fileName));
+            String line;
+
+            List<String> list = new ArrayList<>();
+            while ((line = reader.readLine()) != null)
+            {
+                String idLine = null;
+                if (!line.isEmpty())
+                {
+                    idLine = line.substring(0, 8).replaceAll(" ", "");
+                }
+                if (!id.equals(idLine))
+                {
+                    list.add(line);
+                }
+            }
+
+            PrintWriter printWriter = new PrintWriter(new BufferedWriter(new FileWriter(fileName)));
+
+
+            for (String s : list)
+            {
+                printWriter.println(s);
+            }
+            printWriter.close();
+
+        }
 
     }
+
+
+    public static String getMaxId(String fileName) throws IOException
+    {
+        ArrayList<Long> allIds = new ArrayList<Long>();
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));
+        String line;
+        Long currentId;
+        while ((line = bufferedReader.readLine()) != null)
+        {
+            line = line.substring(0, 8).replaceAll("\\s", "");
+            currentId = Long.parseLong(line);
+            allIds.add(currentId);
+        }
+        bufferedReader.close();
+        Long maxId = Collections.max(allIds);
+        Long MyId = maxId + 1;
+        return MyId.toString();
+    }
+
+
+    public static String setLength(String previousName, int count)
+    {
+        String trueName;
+        if (previousName.length() > count)
+            trueName = previousName.substring(0, count);
+        else
+        {
+            String s = "";
+            for (int i = 0; i < (count - previousName.length()); i++)
+                s = s + " ";
+            trueName = previousName + s;
+        }
+        return trueName;
+    }
 }
+
