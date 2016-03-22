@@ -12,16 +12,22 @@ import static java.lang.StrictMath.pow;
 /**
  * Created by Dmitry on 19.02.2016.
  */
-public class AdvertisementManager {
+public class AdvertisementManager
+{
     private final AdvertisementStorage storage = AdvertisementStorage.getInstance();
     private int timeSeconds;
-    public AdvertisementManager(int timeSeconds) {
+
+    public AdvertisementManager(int timeSeconds)
+    {
         this.timeSeconds = timeSeconds;
     }
-    public void processVideos() throws NoVideoAvailableException {
+
+    public void processVideos() throws NoVideoAvailableException
+    {
         List<Advertisement> advideos = storage.list();
         List<Advertisement> actualAdvideos = new ArrayList<>();    // исходный лист с положительным hits
-        for (Advertisement adv : advideos){
+        for (Advertisement adv : advideos)
+        {
             if (adv.getHits() > 0)
                 actualAdvideos.add(adv);
         }
@@ -29,7 +35,8 @@ public class AdvertisementManager {
         // лист маска для исходного листа (по нему мы включаем или нет в результат элементы исходного 1 - да, 0 - нет)
         List<Integer> mask = new ArrayList<>(size + 1);
         // обнулим для начала
-        for (int i = 0; i < size + 1; i++) {
+        for (int i = 0; i < size + 1; i++)
+        {
             mask.add(i, 0);
         }
         // лист для результата выбора роликов
@@ -38,13 +45,15 @@ public class AdvertisementManager {
         listResult = subSet(actualAdvideos, size, mask, 0);
         if (listResult.isEmpty())
             throw new NoVideoAvailableException();
-        Comparator<Advertisement> advComparator = new Comparator<Advertisement>() {
+        Comparator<Advertisement> advComparator = new Comparator<Advertisement>()
+        {
             @Override
-            public int compare(Advertisement o1, Advertisement o2) {
+            public int compare(Advertisement o1, Advertisement o2)
+            {
                 long sum1 = o1.getAmountPerOneDisplaying();
                 long sum2 = o2.getAmountPerOneDisplaying();
-                long sumSec1 = o1.getDuration() !=0 ? sum1*1000/o1.getDuration() : 0L;
-                long sumSec2 = o2.getDuration() !=0 ? sum2*1000/o2.getDuration() : 0L;
+                long sumSec1 = o1.getDuration() != 0 ? sum1 * 1000 / o1.getDuration() : 0L;
+                long sumSec2 = o2.getDuration() != 0 ? sum2 * 1000 / o2.getDuration() : 0L;
                 if (sum1 != sum2)
                     return Long.compare(sum2, sum1);
                 if (sumSec1 != sumSec2)
@@ -54,28 +63,36 @@ public class AdvertisementManager {
         };
         Collections.sort(listResult, advComparator);
         for (Advertisement adv : listResult)
-            ConsoleHelper.writeMessage(adv.getName() + " is displaying... " + adv.getAmountPerOneDisplaying() + ", " + (adv.getDuration() !=0 ? adv.getAmountPerOneDisplaying()*1000/adv.getDuration() : 0));
+            ConsoleHelper.writeMessage(adv.getName() + " is displaying... " + adv.getAmountPerOneDisplaying() + ", " + (adv.getDuration() != 0 ? adv.getAmountPerOneDisplaying() * 1000 / adv.getDuration() : 0));
         //2.6 Для каждого показанного рекламного ролика пересчитать его данные вызвав метод revalidate() у объекта класса Advertisement.
         for (Advertisement adv : listResult)
             adv.revalidate();
     }
-    private List<Advertisement> subSet(List<Advertisement> adv, int size, List<Integer> mask, int curPos){
+
+    private List<Advertisement> subSet(List<Advertisement> adv, int size, List<Integer> mask, int curPos)
+    {
         // curPos - текущая добавляемая позиция в листе mask
         // всего вариантов 2^n от размера исходного массива
         List<List<Advertisement>> listOfSets = new ArrayList<>();
         // список для создания подсписка
         List<Advertisement> tmpList = new ArrayList<>();
-        if (curPos != pow(2, size)) {
+        if (curPos != pow(2, size))
+        {
             // инкрементируем mask (эмуляция прибавления единицы в двоичной системе):
-            for (int i = 0; i < curPos; i++) {
-                if (mask.get(i) == 0) {
+            for (int i = 0; i < curPos; i++)
+            {
+                if (mask.get(i) == 0)
+                {
                     mask.set(i, 1);
                     break;
-                } else {
+                } else
+                {
                     mask.set(i, 0);
                 }
-                if (i == curPos - 1) {
-                    for (int j = 0; j < curPos; j++) {
+                if (i == curPos - 1)
+                {
+                    for (int j = 0; j < curPos; j++)
+                    {
                         mask.set(i, 0);
                     }
                     mask.set(curPos, 1);
@@ -83,11 +100,14 @@ public class AdvertisementManager {
             }
             // накладываем маску на исходный (создаём подсписок)
             int time = 0;
-            for (int i = 0; i < size; i++) {
-                if (mask.get(i) != 0) {
+            for (int i = 0; i < size; i++)
+            {
+                if (mask.get(i) != 0)
+                {
                     tmpList.add(adv.get(i));
                     time += adv.get(i).getDuration();
-                } else {
+                } else
+                {
                     //skip element
                 }
             }
