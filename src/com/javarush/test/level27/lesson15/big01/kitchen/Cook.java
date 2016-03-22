@@ -9,9 +9,9 @@ import java.util.Observer;
 /**
  * Created by Dmitry on 19.02.2016.
  */
-public class Cook implements Observer
+public class Cook extends Observable implements Observer
 {
-    private String name;
+    String name;
     public Cook(String name)
     {
         this.name = name;
@@ -27,6 +27,7 @@ public class Cook implements Observer
     public void update(Observable observable, Object arg)
     {
         ConsoleHelper.writeMessage("Start cooking - " + arg);
-
+        super.setChanged();
+        notifyObservers(arg);
     }
 }
