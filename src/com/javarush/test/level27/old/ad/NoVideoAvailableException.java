@@ -1,4 +1,4 @@
-package com.javarush.test.level27.lesson15.big01.ad;
+package com.javarush.test.level27.old.ad;
 
 /**
  * Created by Dmitry on 19.02.2016.

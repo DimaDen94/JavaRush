@@ -1,6 +1,6 @@
-package com.javarush.test.level27.lesson15.big01;
+package com.javarush.test.level27.old;
 
-import com.javarush.test.level27.lesson15.big01.kitchen.Dish;
+import com.javarush.test.level27.old.kitchen.Dish;
 
 import java.io.BufferedReader;
 import java.io.IOException;

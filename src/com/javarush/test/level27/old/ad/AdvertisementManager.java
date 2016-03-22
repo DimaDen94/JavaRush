@@ -1,6 +1,6 @@
-package com.javarush.test.level27.lesson15.big01.ad;
+package com.javarush.test.level27.old.ad;
 
-import com.javarush.test.level27.lesson15.big01.ConsoleHelper;
+import com.javarush.test.level27.old.ConsoleHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -97,19 +97,24 @@ public class AdvertisementManager {
             curPos++;
             listOfSets.add(subSet(adv, size, mask, curPos));
             // сортировка
-            Collections.sort(listOfSets, new Comparator<List<Advertisement>>() {
+            Collections.sort(listOfSets, new Comparator<List<Advertisement>>()
+            {
                 @Override
-                public int compare(List<Advertisement> o1, List<Advertisement> o2) {
-                    if (o1 != null && o2 !=null) {
+                public int compare(List<Advertisement> o1, List<Advertisement> o2)
+                {
+                    if (o1 != null && o2 != null)
+                    {
                         int time1 = 0;
                         int time2 = 0;
                         long sum1 = 0L;
                         long sum2 = 0L;
-                        for (Advertisement a1 : o1) {
+                        for (Advertisement a1 : o1)
+                        {
                             time1 += a1.getDuration();
                             sum1 += a1.getAmountPerOneDisplaying();
                         }
-                        for (Advertisement a2 : o2) {
+                        for (Advertisement a2 : o2)
+                        {
                             time1 += a2.getDuration();
                             sum1 += a2.getAmountPerOneDisplaying();
                         }
