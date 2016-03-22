@@ -26,6 +26,18 @@ public class Order {
         dishes = ConsoleHelper.getAllDishesForOrder();
     }
 
-
+    public int getTotalCookingTime(){
+        int time = 0;
+        for(Dish dish: dishes){
+            time = time + dish.getDuration();
+        }
+        return time;
+    }
+    public boolean isEmpty(){
+        if(dishes.isEmpty()){
+            return true;
+        }
+        else return false;
+    }
 }
 
