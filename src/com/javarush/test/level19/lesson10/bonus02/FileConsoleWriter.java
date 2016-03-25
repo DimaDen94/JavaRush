@@ -6,104 +6,16 @@ package com.javarush.test.level19.lesson10.bonus02;
 При записи данных в файл, должен дублировать эти данные на консоль
 */
 
-import java.io.*;
+import java.io.File;
+import java.io.FileDescriptor;
+import java.io.FileWriter;
+import java.io.IOException;
 
-public class FileConsoleWriter extends FileWriter{
-
-    @Override
-    public String getEncoding()
+public class FileConsoleWriter extends FileWriter
+{
+    public FileConsoleWriter(String fileName) throws IOException
     {
-        return super.getEncoding();
-    }
-
-    @Override
-    public void write(int c) throws IOException
-    {
-        super.write(c);
-    }
-
-    @Override
-    public void write(char[] cbuf, int off, int len) throws IOException
-    {
-        super.write(cbuf, off, len);
-    }
-
-    @Override
-    public void write(String str, int off, int len) throws IOException
-    {
-        super.write(str, off, len);
-    }
-
-    @Override
-    public void flush() throws IOException
-    {
-        super.flush();
-    }
-
-    @Override
-    public void close() throws IOException
-    {
-        super.close();
-    }
-
-    @Override
-    public void write(char[] cbuf) throws IOException
-    {
-        super.write(cbuf);
-    }
-
-    @Override
-    public void write(String str) throws IOException
-    {
-        super.write(str);
-    }
-
-    @Override
-    public Writer append(CharSequence csq) throws IOException
-    {
-        return super.append(csq);
-    }
-
-    @Override
-    public Writer append(CharSequence csq, int start, int end) throws IOException
-    {
-        return super.append(csq, start, end);
-    }
-
-    @Override
-    public Writer append(char c) throws IOException
-    {
-        return super.append(c);
-    }
-
-    @Override
-    public int hashCode()
-    {
-        return super.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj)
-    {
-        return super.equals(obj);
-    }
-
-    @Override
-    protected Object clone() throws CloneNotSupportedException
-    {
-        return super.clone();
-    }
-
-    @Override
-    public String toString()
-    {
-        return super.toString();
-    }
-
-    @Override
-    protected void finalize() throws Throwable
-    {
-        super.finalize();
+        super(fileName);
     }
 
     public FileConsoleWriter(String fileName, boolean append) throws IOException
@@ -111,9 +23,9 @@ public class FileConsoleWriter extends FileWriter{
         super(fileName, append);
     }
 
-    public FileConsoleWriter(FileDescriptor fd)
+    public FileConsoleWriter(File file) throws IOException
     {
-        super(fd);
+        super(file);
     }
 
     public FileConsoleWriter(File file, boolean append) throws IOException
@@ -121,13 +33,55 @@ public class FileConsoleWriter extends FileWriter{
         super(file, append);
     }
 
-    public FileConsoleWriter(File file) throws IOException
+    public FileConsoleWriter(FileDescriptor fd)
     {
-        super(file);
+        super(fd);
     }
 
-    public FileConsoleWriter(String fileName) throws IOException
+    private char[] writeBuffer;
+    private final int writeBufferSize = 1024;
+
+    public void write(int c) throws IOException
     {
-        super(fileName);
+        if (writeBuffer == null){
+            writeBuffer = new char[writeBufferSize];
+        }
+        writeBuffer[0] = (char) c;
+        write(writeBuffer, 0, 1);
+    }
+
+
+    public void write(char[] cbuf) throws IOException
+    {
+        write(cbuf, 0, cbuf.length);
+    }
+
+
+    public void write(char[] cbuf, int off, int len) throws IOException
+    {
+        System.out.println(String.copyValueOf(cbuf).substring(off, off+len));
+        super.write(cbuf, off, len);
+    }
+
+
+    public void write(String str) throws IOException
+    {
+        write(str, 0, str.length());
+    }
+
+
+    public void write(String str, int off, int len) throws IOException
+    {
+        char cbuf[];
+        if (len <= writeBufferSize) {
+            if (writeBuffer == null) {
+                writeBuffer = new char[writeBufferSize];
+            }
+            cbuf = writeBuffer;
+        } else {    // Don't permanently allocate very large buffers.
+            cbuf = new char[len];
+        }
+        str.getChars(off, (off + len), cbuf, 0);
+        write(cbuf, 0, len);
     }
 }
