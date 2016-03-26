@@ -7,7 +7,7 @@ import com.javarush.test.level37.lesson04.big01.Human;
  */
 public class TeenBoy implements Human
 {
-    public final int  MAX_AGE = 12;
+    public static final int  MAX_AGE = 19;
 
     @Override
     public String toString()
