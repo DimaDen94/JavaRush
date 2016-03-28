@@ -11,6 +11,7 @@ import java.util.*;
  */
 public class AmigoSet<E> extends AbstractSet<E> implements Cloneable, Serializable, Set<E>
 {
+    HashSet<E> set = new HashSet<>();
     private final static Object PRESENT = new Object();
     private transient HashMap<E, Object> map;
 
