@@ -66,4 +66,20 @@ public class AmigoSet<E> extends AbstractSet<E> implements Cloneable, Serializab
     {
         return map.keySet().remove(o);
     }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException
+    {
+        AmigoSet<E> amigoSet = new AmigoSet<>();
+
+        try {
+            amigoSet.addAll(this);
+            amigoSet.map.putAll(this.map);
+        }
+        catch (Exception e){
+            throw new InternalError();
+        }
+
+        return amigoSet;
+    }
 }
