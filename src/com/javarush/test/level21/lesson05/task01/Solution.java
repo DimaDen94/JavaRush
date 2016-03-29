@@ -15,19 +15,23 @@ public class Solution {
         this.last = last;
     }
 
-    public boolean equals(Solution n) {
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-        if (n==null)
-            return false;
+        Solution solution = (Solution) o;
 
-        if (n.getClass() != this.getClass() )
-            return false;
+        if (first != null ? !first.equals(solution.first) : solution.first != null) return false;
+        if (last != null ? !last.equals(solution.last) : solution.last != null) return false;
 
-        return n.first.equals(first) && n.last.equals(last);
+        return true;
     }
 
     public int hashCode() {
-        return Integer.parseInt(first.substring(0,1));
+        int result = first != null ? first.hashCode() : 0;
+        result = 31 * result + (last != null ? last.hashCode() : 0);
+        return result;
+
     }
 
     public static void main(String[] args) {
