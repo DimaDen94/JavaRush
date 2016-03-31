@@ -23,6 +23,10 @@ public class Solution {
             setUncaughtExceptionHandler(new MyUncaughtExceptionHandler());
         }
 
+        @Override
+        public void run() {
+            throw new NullPointerException("it's an example");
+        }
         private class MyUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
             public void uncaughtException(Thread t, Throwable e) {
                 try {
@@ -33,11 +37,7 @@ public class Solution {
                     e1.printStackTrace();
                 }
             }
-        }
 
-        @Override
-        public void run() {
-            throw new NullPointerException("it's an example");
         }
     }
 
