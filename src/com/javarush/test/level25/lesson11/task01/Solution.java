@@ -14,6 +14,8 @@ public class Solution {
 
     public synchronized void moveMoney(Account from, Account to, int amount) {
         from.setBalance(from.getBalance() - amount);
+        if (RANDOM.nextInt(5000) > THRESHOLD_VALUE)
+            Thread.yield();
         to.setBalance(to.getBalance() + amount);
     }
 
