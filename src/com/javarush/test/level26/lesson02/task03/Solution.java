@@ -19,7 +19,6 @@ public class Solution {
         {
             this.comparators = comparators;
         }
-
         @Override
         public int compare(T o1, T o2)
         {
