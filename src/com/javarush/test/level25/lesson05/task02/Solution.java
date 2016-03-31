@@ -21,8 +21,8 @@ public class Solution {
         public MyThread(String secretKey) {
             this.secretKey = secretKey;
             setUncaughtExceptionHandler(new MyUncaughtExceptionHandler());
-
         }
+
         private class MyUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
             public void uncaughtException(Thread t, Throwable e) {
                 try {
@@ -34,15 +34,11 @@ public class Solution {
                 }
             }
         }
+
         @Override
         public void run() {
             throw new NullPointerException("it's an example");
         }
-
     }
 
-
-
-
 }
-
