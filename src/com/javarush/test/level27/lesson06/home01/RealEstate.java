@@ -29,11 +29,15 @@ public class RealEstate {
         activeApartments.add(apartment);
     }
 
-    public synchronized void revalidate() {
-        activeApartments.clear();
-        for (Apartment apartment : allApartments) {
-            boolean randomValue = Math.random() * 2 % 2 == 0;
-            apartment.revalidate(randomValue);
+    public  void revalidate() {
+        synchronized (this)
+        {
+            activeApartments.clear();
+            for (Apartment apartment : allApartments)
+            {
+                boolean randomValue = Math.random() * 2 % 2 == 0;
+                apartment.revalidate(randomValue);
+            }
         }
     }
 }
